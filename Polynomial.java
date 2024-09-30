@@ -16,13 +16,13 @@ public class Polynomial {
     }
 
     // Constructor that initializes polynomial with given coefficients and exponents
-    public Polynomial(double[] c, int[] e) {
-        int length = c.length;
+    public Polynomial(double[] b, int[] c) {
+        int length = b.length;
         this.coef = new double[length];
         this.expo = new int[length];
         for (int i = 0; i < length; i++) {
-            this.coef[i] = c[i];
-            this.expo[i] = e[i];
+            this.coef[i] = b[i];
+            this.expo[i] = c[i];
         }
     }
 
@@ -49,7 +49,6 @@ public class Polynomial {
                         term = term.substring(1);
                     }
 
-                    // Parse the term
                     if (term.contains("x")) {
                         String[] temp = term.split("x");
                         if (!temp[0].isEmpty()) {
@@ -69,7 +68,6 @@ public class Polynomial {
                     this.expo[i] = exponent;
                 }
             } else {
-                // File is empty, initialize to zero polynomial
                 this.coef = new double[]{0};
                 this.expo = new int[]{0};
             }
@@ -146,15 +144,13 @@ public class Polynomial {
             k++;
         }
 
-        // Copy remaining terms from p
         while (j < length2) {
             c[k] = p.coef[j];
             e[k] = p.expo[j];
             j++;
             k++;
         }
-
-        // Remove any zero coefficients
+        
         int nonZeroCount = 0;
         for (int m = 0; m < k; m++) {
             if (c[m] != 0) {
@@ -175,7 +171,6 @@ public class Polynomial {
         return new Polynomial(finalC, finalE);
     }
 
-    // Method to multiply two polynomials
     public Polynomial multiply(Polynomial p) {
         int maxExponent = 0;
         for (int ex1 : this.expo) {
