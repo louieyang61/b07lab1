@@ -41,7 +41,6 @@ public class Polynomial {
                     double coefficient = 1.0;
                     int exponent = 0;
 
-                    // Handle sign
                     if (term.startsWith("+")) {
                         term = term.substring(1);
                     } else if (term.startsWith("-")) {
