@@ -1,49 +1,67 @@
-public class Polynomial{
+public class Polynomial {
     double[] coefficients;
 
-    public Polynomial(){
+    public Polynomial() {
         this.coefficients = new double[1];
     }
 
-    public Polynomial(double[] B){
-        int len = B.length;
-        this.coefficients = new double[len];
-        for (int i = 0; i < len; i++){
-            this.coefficients[i] = B[i];
-        }
+    public Polynomial(double[] inputCoefficients) {
+        this.coefficients = inputCoefficients;
     }
 
-    public Polynomial add(Polynomial C){
-        int len1 = this.coefficients.length;
-        int len2 = C.coefficients.length;
-        Polynomial ret;
-        if (len1 > len2) {
-            ret = new Polynomial(this.coefficients);
-            for (int i = 0; i < len2; i++) {
-                ret.coefficients[i] += C.coefficients[i];
+    public Polynomial add(Polynomial other) {
+        int thisDegree = this.coefficients.length;
+        int otherDegree = other.coefficients.length;
+
+        if (thisDegree < otherDegree) {
+            double[] newCoefficients = new double[otherDegree];
+
+            for (int i = 0; i < thisDegree; i++) {
+                newCoefficients[i] = other.coefficients[i] + this.coefficients[i];
             }
-        }else{
-            ret = new Polynomial(C.coefficients);
-            for (int i = 0; i < len1; i++){
-                ret.coefficients[i] += this.coefficients[i];
+
+            for (int i = thisDegree; i < otherDegree; i++) {
+                newCoefficients[i] = other.coefficients[i];
             }
+
+            return new Polynomial(newCoefficients);
         }
-        return ret;
-    }
 
-    public double evaluate(double x){
-        double ans = 0;
-        for (int i = 0; i < this.coefficients.length; i++){
-            ans = ans + this.coefficients[i]*(Math.pow(x,i));
+        if (thisDegree == otherDegree) {
+            double[] newCoefficients = new double[thisDegree];
+
+            for (int i = 0; i < thisDegree; i++) {
+                newCoefficients[i] = other.coefficients[i] + this.coefficients[i];
+            }
+
+            return new Polynomial(newCoefficients);
         }
-        return ans;
+
+        double[] newCoefficients = new double[thisDegree];
+
+        for (int i = 0; i < otherDegree; i++) {
+            newCoefficients[i] = other.coefficients[i] + this.coefficients[i];
+        }
+
+        for (int i = otherDegree; i < thisDegree; i++) {
+            newCoefficients[i] = this.coefficients[i];
+        }
+
+        return new Polynomial(newCoefficients);
     }
 
-    public boolean hasRoot(double x){
-        if (evaluate(x) == 0)
-            return true;
-        else
-            return false;
+    public double evaluate(double x) {
+        int degree = this.coefficients.length;
+        double result = 0.0;
+
+        for (int i = 0; i < degree; i++) {
+            result += this.coefficients[i] * Math.pow(x, i);
+        }
+
+        return result;
     }
 
+    public boolean hasRoot(double x) {
+        return evaluate(x) == 0.0;
+    }
 }
